@@ -4,11 +4,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Event Loop by Artsemi Shareika</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="dist/theme/moon.css" id="theme">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
@@ -16,8 +16,146 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+				<h2 style="margin: 100px 0px;">Event loop</h2>
+				<span  style="margin-left: -1px;">Artsemi Shareika</span>
+				<a href = https://github.com/diabolicsound style="margin-left: 340px;"><img style="margin: 0px 10px;" src="dist/github.png"><span>diabolicsound</span></a>
+				</section>
+				<section>
+				<section> <h3>JavaScript is described as:</h3>
+					<ul>
+					<li class="fragment">Single - threaded</li>
+					<li class="fragment">Non-blocking</li>
+					<li class="fragment">Asynchronous</li>
+					<li class="fragment">Concurrent</li>
+					</ul>
+				</section>
+				<section><img src="./dist/nick.png"></section>
+			</section>
+				<section><h3>JavaScript Run-time</h3>
+				<img src="dist/run-time.png"></section>
+				<section><section><h3>usual sync code execution</h3>
+					<pre><code data-trim data-noescape>
+						console.log('Print 1');
+						console.log('Print 2');
+						console.log('Print 3');
+					</code></pre>
+				</section>
+				<section><img src="dist/execution1.png"></section>
+			</section>
+				<section><section><h3>Another example of sync code</h3>
+					<pre><code data-trim data-noescape>
+						function Third(str) {
+							return str + 'Morgan';
+						}
+						function Second() {
+							return Third('Dexter');
+						}
+						function First() {
+							const name = Second();
+							console.log("My name is" + name)
+						};
+						First();
+					</code></pre>
+				</section>
+				<section><img src="dist/exec2.png" height="650px" width="600px"></section>
+			</section>
+				<section><h3>Asyncronicity</h3>
+				<ul>
+					<li class="fragment">Allows to call something on a background</li>
+					<li class="fragment">Helps to avoid blocking</li>
+					<li class="fragment">Doesn't negatively affect user interface</li>
+				</ul>
+				</section>
+				<section><h3>Event Loop is responsible for</h3>
+					<ul>
+						<li class="fragment">Code execution</li>
+						<li class="fragment">Catching and processing events</li>
+						<li class="fragment">Running code from micro- and macroqueues</li>
+					</ul>
+				</section>
+				<section><section>
+					<h3>Async code example</h3>
+					<pre><code data-trim data-noescape>
+					console.log('Hello');
+					setTimeout(function() {
+						console.log('Siddhartha');
+					}, 2000);
+					console.log('I am');
+				</code></pre></section>
+				<section><img src="dist/exec3.png" alt="Hard example" width="415" height="650"></section>
+			</section>
+				<section><h3>
+                Microtask Queue 
+				</h3>
+				<ul>
+					<li class="fragment">Introduced in ES6</li>
+					<li class="fragment">Used to process Promises</li>
+					<li class="fragment">The fastest possible way to do something async</li>
+					<li class="fragment">"VIP" queue</li>
+				</ul></section>
+				<section><section><h3>Example with both micro- and macrotasks</h3>
+					<pre><code data-trim data-noescape>
+						const bar = () => console.log('bar');
+
+						const baz = () => console.log('bar');
+
+						const foo = () => {
+						  console.log('foo');
+						  setTimeout(bar, 0);
+						  new Promise((resolve, reject) =>
+						  resolve.('should be right after baz, before bar')
+						  ).then(resolve => console.log(resolve));
+						  baz();
+						}
+
+						foo();
+					</code></pre>
+				</section>
+			<section>
+				<pre><code data-trim data-noescape>
+				// foo
+
+				// baz
+
+				// should be right after baz, before bar
+
+				// bar
+
+				</code></pre>
+			</section>
+			</section>
+				<section><h3>Event Loop algorithm</h3>
+					<ol>
+						<li class="fragment">Do the oldest tasks from macrotask queue(script, for example).</li>
+						<li class="fragment">Do all the tasks from microtask queue until it’s empty.</li>
+						<li class="fragment">Do page rendering.</li>
+						<li class="fragment">If macrotask queue is empty – wait until macrotask appears.</li>
+						<li class="fragment">Go to step 1.</li>
+					</ol>
+				</section>
+				<section><h3>Final thoughts</h3>
+					<ul>
+						<li class="fragment">JS engine, Call stack and their importance for code execution order</li>
+						<li class="fragment">Web APIs and their role in async processes</li>
+						<li class="fragment">Ways to avoid any kind of problems with synchronicity and asynchronicity</li>
+					</ul>
+				</section>
+				<section><h3>Checkout</h3>
+					<ul>
+						<li class="fragment">What it the event loop?</li>
+						<li class="fragment">Why was it introduced?</li>
+						<li class="fragment">How can I use it effectively in my projects?</li>
+					</ul>
+				</section>
+				<section>
+					<img src="/dist/js.png"> <span style="font-size: 220px; margin: 80px 240px; display: inline-block;"></span>
+					<span style="font-size: 220px; position: absolute; color: red; margin-left: -290px; margin-top: -20px;">?</span>
+					<img src="dist/china.jpg" width="220px" height="225px">
+				</section>
+				<section>
+					<h3>Thank you for listening! I'm artsemishareika@gmail.com</h3>
+				</section>
 			</div>
 		</div>
 
